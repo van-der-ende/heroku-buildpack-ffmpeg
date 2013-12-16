@@ -22,7 +22,7 @@ echo "FAAC_DOWNLOAD_URL = " $FAAC_DOWNLOAD_URL | indent
 curl -L --silent $FAAC_DOWNLOAD_URL | tar xz
 
 echo "-----> Install ffmpeg"
-FFMPEG_DOWNLOAD_URL="https://s3.amazonaws.com/hoverclips/ffmpeg.static.64bit.tar.gz"
+FFMPEG_DOWNLOAD_URL="https://dl.dropboxusercontent.com/s/9y1guvcah6wbqjm/ffmpeg.static.64bit.tar.gz?dl=1"
 echo "FFMPEG_DOWNLOAD_URL = " $FFMPEG_DOWNLOAD_URL | indent
 curl -L --silent $FFMPEG_DOWNLOAD_URL | tar xz
 
