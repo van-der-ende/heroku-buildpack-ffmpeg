@@ -4,36 +4,20 @@ indent() {
   sed -u 's/^/       /'
 }
 
+echo "-----> Install ffmpeg (from static binary)"
 BUILD_DIR=$1
-VENDOR_DIR="vendor"
+VENDOR_DIR="vendor/ffmpeg/bin"
+DOWNLOAD_URL="https://s3.amazonaws.com/hoverclips/ffmpeg.static.64bit.tar.gz"
+
+echo "DOWNLOAD_URL = " $DOWNLOAD_URL | indent
 
 cd $BUILD_DIR
 mkdir -p $VENDOR_DIR
 cd $VENDOR_DIR
+curl -L --silent $DOWNLOAD_URL | tar xz
 
-echo "-----> Install x264"
-X264_DOWNLOAD_URL="https://s3-us-west-2.amazonaws.com/tcbtm-binaries/x264.tar.gz"
-echo "X264_DOWNLOAD_URL = " $X264_DOWNLOAD_URL | indent
-curl -L --silent $X264_DOWNLOAD_URL | tar xz
-
-echo "-----> Install fdk-aac"
-FAAC_DOWNLOAD_URL="https://s3-us-west-2.amazonaws.com/tcbtm-binaries/fdk-aac.tar.gz"
-echo "FAAC_DOWNLOAD_URL = " $FAAC_DOWNLOAD_URL | indent
-curl -L --silent $FAAC_DOWNLOAD_URL | tar xz
-
-echo "-----> Install ffmpeg"
-FFMPEG_DOWNLOAD_URL="https://dl.dropboxusercontent.com/s/9y1guvcah6wbqjm/ffmpeg.static.64bit.tar.gz?dl=1"
-echo "FFMPEG_DOWNLOAD_URL = " $FFMPEG_DOWNLOAD_URL | indent
-curl -L --silent $FFMPEG_DOWNLOAD_URL | tar xz
-
-echo "-----> exporting PATH and LIBRARY_PATH" | indent
+echo "exporting PATH and LIBRARY_PATH" | indent
 PROFILE_PATH="$BUILD_DIR/.profile.d/ffmpeg.sh"
 mkdir -p $(dirname $PROFILE_PATH)
-
-echo 'export PATH="$PATH:vendor/fdk-aac/bin"' >> $PROFILE_PATH
-echo 'export PATH="$PATH:vendor/x264/bin"' >> $PROFILE_PATH
 echo 'export PATH="$PATH:vendor/ffmpeg/bin"' >> $PROFILE_PATH
-
-echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:vendor/fdk-aac/lib"' >> $PROFILE_PATH
-echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:vendor/x264/lib"' >> $PROFILE_PATH
 echo 'export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:vendor/ffmpeg/lib"' >> $PROFILE_PATH
